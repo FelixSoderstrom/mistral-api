@@ -25,7 +25,7 @@ The main idea behind creating this API is to make our game project easier to use
 
 1. Clone the repository:
 ```bash
-git clone <your-repository-url>
+git clone https://github.com/FelixSoderstrom/mistral-api.git
 cd mistral-api
 ```
 
