@@ -53,6 +53,7 @@ async def health_check():
 @limiter.limit(f"{settings.RATE_LIMIT_CALLS}/{settings.RATE_LIMIT_SECONDS}s")
 async def generate(request_data: GenerateRequest, request: Request):
     """Generate text from the model."""
+    agent = None
     try:
         # Create new agent instance for this request
         agent = MistralAgent()
@@ -67,6 +68,11 @@ async def generate(request_data: GenerateRequest, request: Request):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        # Ensure cleanup happens even if there's an error
+        if agent:
+            if hasattr(agent, "__del__"):
+                agent.__del__()
 
 
 if __name__ == "__main__":
