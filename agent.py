@@ -17,13 +17,27 @@ PROMPT_TEMPLATE = """<|im_start|>system
 class MistralAgent:
     def __init__(self):
         """Initialize the Mistral agent with GGUF model."""
+        # Initialize attributes first
         self.model = None
         self.llm = None
-        self._initialize_model()
+        try:
+            self._initialize_model()
+        except Exception as e:
+            print(f"Failed to initialize model: {e}")
+            # Ensure attributes exist even if initialization fails
+            self.model = None
+            self.llm = None
 
     def _initialize_model(self):
         """Initialize the model with optimized settings for GPU inference."""
-        # Initialize the low-level model
+        import torch
+
+        if torch.cuda.is_available():
+            print(f"CUDA available: Using GPU {torch.cuda.get_device_name()}")
+            print(f"PyTorch version: {torch.__version__}")
+        else:
+            print("WARNING: CUDA not available, falling back to CPU")
+
         self.model = Llama(
             model_path=settings.MODEL_PATH,
             n_gpu_layers=settings.N_GPU_LAYERS,
@@ -82,7 +96,8 @@ class MistralAgent:
 
     def __del__(self):
         """Cleanup when the agent is destroyed."""
-        if self.model is not None:
+        # Check if we have the attribute first
+        if hasattr(self, "model") and self.model is not None:
             del self.model
-        if self.llm is not None:
+        if hasattr(self, "llm") and self.llm is not None:
             del self.llm
