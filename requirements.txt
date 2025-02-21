@@ -1,9 +1,23 @@
-# PyTorch with CUDA support (install first)
+# Base system utilities (install first)
+setuptools
+wheel
+cmake>=3.21.0
+ninja
+nvidia-ml-py3==7.352.0
+psutil==6.1.1
+
+# CUDA support dependencies
 --extra-index-url https://download.pytorch.org/whl/cu118
 torch==2.0.1+cu118
 
-# Model dependencies
-llama-cpp-python==0.2.23
+# Critical dependency for llama-cpp
+diskcache>=5.6.1
+
+# GPU-enabled llama-cpp-python (install after CUDA setup)
+--extra-index-url https://jllllll.github.io/llama-cpp-python-cuBLAS-wheels/AVX2/cu118
+llama-cpp-python==0.2.26+cu118
+
+# Model dependencies (install after llama-cpp)
 langchain==0.0.284
 langchain-community==0.0.10
 
@@ -17,6 +31,3 @@ python-multipart==0.0.6
 # API utilities
 slowapi==0.1.8
 gunicorn==21.2.0
-
-# System utilities
-psutil==6.1.1

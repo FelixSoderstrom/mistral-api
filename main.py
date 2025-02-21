@@ -10,6 +10,15 @@ from slowapi.errors import RateLimitExceeded
 from config import settings
 from agent import MistralAgent
 from streamer import ResponseStreamer
+import os
+import torch
+
+# Set CUDA device at startup
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_LAUNCH_BLOCKING"] = "1"
+
+# Ensure CUDA is available
+assert torch.cuda.is_available(), "CUDA must be available for this API"
 
 # Initialize rate limiter
 limiter = Limiter(key_func=get_remote_address)
@@ -79,6 +88,7 @@ if __name__ == "__main__":
         "main:app",
         host="0.0.0.0",
         port=8000,
-        reload=True,
-        workers=1,  # Use only 1 worker for GPU inference
+        reload=False,  # Disable reload for better GPU performance
+        workers=1,  # Single worker for GPU inference
+        log_level="info",
     )

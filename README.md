@@ -1,6 +1,6 @@
 # Mistral API
 
-A FastAPI-based REST API for serving GGUF language models, with built-in rate limiting and GPU acceleration support. While developed and tested with the Mistral Dolphin 2.0 model, this API is designed to work with any GGUF model.
+A FastAPI-based REST API for serving GGUF language models, with built-in rate limiting and GPU acceleration. While developed and tested with the Mistral Dolphin 2.0 model, this API is designed to work with any GGUF model.
 
 The main idea behind creating this API is to make our game project easier to use in the end.
 
@@ -17,7 +17,7 @@ The main idea behind creating this API is to make our game project easier to use
 ## Prerequisites
 
 - Python 3.10
-- CUDA-capable GPU (recommended)
+- CUDA-capable GPU (required)
 - CUDA 11.8+ and appropriate drivers
 - 8GB+ RAM (16GB+ recommended)
 
@@ -39,7 +39,9 @@ pip install -r requirements.txt
 mkdir -p models
 # Place your .gguf model file here
 ```
-Model used: [The Bloke's Mistral Dolphin 2.0 7B](https://huggingface.co/TheBloke/dolphin-2.0-mistral-7B-GGUF)
+# WE CHANGED MODEL TO THIS ONE: dolphin-2.0-mistral-7b.Q5_K_S.gguf
+Make sure you download the correct model and put it in the models folder.
+Model used: [The Bloke's Mistral Dolphin 2.0 7B. Q5_K_S.gguf](https://huggingface.co/TheBloke/dolphin-2.0-mistral-7B-GGUF)
 
 ## Configuration
 
@@ -108,7 +110,7 @@ docker run -p 8000:8000 --gpus all mistral-api
 
 ## Model Compatibility
 
-While this API has been tested primarily with the Mistral Dolphin 2.0 model, it is designed to work with any GGUF format model. To use a different model:
+While this API has been tested primarily with the Mistral Dolphin 2.0 model, it is designed to work with any GGUF format model. To use a different model (its optimized for the model we use as of now in the prompting technique):
 
 1. Place your .gguf model in the `models` directory
 2. Update the `MODEL_PATH` in `config.py` or set it via environment variable
@@ -116,7 +118,7 @@ While this API has been tested primarily with the Mistral Dolphin 2.0 model, it 
 
 ## Performance Notes
 
-- GPU acceleration is recommended for optimal performance
+- GPU acceleration is required in this version (NO CPU MODE)
 - Model loading time depends on the model size and GPU memory
 - Response generation speed depends on the requested token count and model configuration
 

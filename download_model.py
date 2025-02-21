@@ -3,12 +3,13 @@ import requests
 from pathlib import Path
 from tqdm import tqdm
 
-MODEL_URL = "https://huggingface.co/TheBloke/dolphin-2.0-mistral-7B-GGUF/resolve/main/dolphin-2.0-mistral-7b.Q4_K_M.gguf"
-MODEL_PATH = Path("models/dolphin-2.0-mistral-7b.Q4_K_M.gguf")
+MODEL_URL = "https://huggingface.co/TheBloke/dolphin-2.0-mistral-7B-GGUF/resolve/main/dolphin-2.0-mistral-7b.Q5_K_S.gguf"
+MODEL_PATH = Path("models/dolphin-2.0-mistral-7b.Q5_K_S.gguf")
 
 
 def download_model():
     MODEL_PATH.parent.mkdir(exist_ok=True)
+    print(f"Downloading Q5_K_M model for optimal GPU performance...")
 
     response = requests.get(MODEL_URL, stream=True)
     total_size = int(response.headers.get("content-length", 0))

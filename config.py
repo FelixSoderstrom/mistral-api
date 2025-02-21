@@ -6,7 +6,7 @@ from pydantic import BaseSettings
 class Settings(BaseSettings):
     # Model Configuration
     MODEL_PATH: str = str(
-        Path(__file__).parent / "models" / "dolphin-2.0-mistral-7b.Q4_K_M.gguf"
+        Path(__file__).parent / "models" / "dolphin-2.0-mistral-7b.Q5_K_S.gguf"
     )
     MAX_NEW_TOKENS: int = 2048
     DEFAULT_MAX_TOKENS: int = 512
@@ -14,9 +14,9 @@ class Settings(BaseSettings):
     TOP_P: float = 0.95
 
     # LLaMA.cpp Configuration
-    N_GPU_LAYERS: int = 35  # Number of layers to offload to GPU
-    N_BATCH: int = 512  # Batch size for prompt processing
-    N_THREADS: int = 8  # Number of threads to use
+    N_GPU_LAYERS: int = 32  # Use all layers for Q5_K_M
+    N_BATCH: int = 2048  # Will be adjusted dynamically
+    N_THREADS: int = 8  # Will be set to physical CPU core count
 
     # API Configuration
     API_TITLE: str = "Mistral API"
